@@ -1,4 +1,4 @@
 Playing arround
 
 
-V1.2 (2. commit in Master)
+V1.3 (3. commit in Master)
