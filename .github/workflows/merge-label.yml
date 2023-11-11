@@ -12,6 +12,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: fetch version Label                          
         run: |    
             echo The PR was merged
@@ -19,15 +20,15 @@ jobs:
             HEAD_VERSION=$( grep '$version = ' ZonPHP/inc/version_info.php | cut -d '"' -f 2  )
             echo "DIST_VERSION=${HEAD_VERSION}" >> $GITHUB_ENV     
             echo New label: $HEAD_VERSION
+
       - name: Create Tag
         uses: actions/github-script@v6
         with:
           script: |
-            echo add label
-            const {DIST_VERSION} = process.env          
-            github.rest.git.createRef({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                ref: `refs/tags/${DIST_VERSION}`,
-                sha: context.sha
-            })      
+                  const {DIST_VERSION} = process.env          
+                  github.rest.git.createRef({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      ref: `refs/tags/${DIST_VERSION}`,
+                      sha: context.sha
+                  })   
