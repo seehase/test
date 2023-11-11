@@ -26,8 +26,6 @@ jobs:
                   echo "MASTER_VERSION --> $MASTER_VERSION"
                   if [ "$HEAD_VERSION" \> "$MASTER_VERSION" ]; then
                     echo "Great job, master version $MASTER_VERSION will become $HEAD_VERSION soon"                    
-                    echo "DIST_VERSION=${HEAD_VERSION}" >> $GITHUB_ENV
-                    git checkout master
                   else
                     echo "Head $HEAD_VERSION not updated before merging into master"
                     exit 1
