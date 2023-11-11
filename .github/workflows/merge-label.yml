@@ -7,11 +7,25 @@ jobs:
   tag:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/github-script@v6
-    - run: |    
-          git checkout master
-          HEAD_VERSION=$( grep '$version = ' ZonPHP/inc/version_info.php | cut -d '"' -f 2  )
-          echo "DIST_VERSION=${HEAD_VERSION}" >> $GITHUB_ENV
-          git tag ${DIST_VERSION}
-    - run: git push
+        - name: Checkout Code
+          uses: actions/checkout@v4
+          with:
+              fetch-depth: 0
+
+        - name: fetch version Label                          
+          run: |    
+              git checkout master
+              HEAD_VERSION=$( grep '$version = ' ZonPHP/inc/version_info.php | cut -d '"' -f 2  )
+              echo "DIST_VERSION=${HEAD_VERSION}" >> $GITHUB_ENV
+              
+         - name: Create Tag
+              uses: actions/github-script@v6
+              with:
+                script: |
+                  const {DIST_VERSION} = process.env          
+                  github.rest.git.createRef({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      ref: `refs/tags/${DIST_VERSION}`,
+                      sha: context.sha
+                  })      
