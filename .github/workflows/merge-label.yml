@@ -1,12 +1,11 @@
 name: tag-master
 on:
-  pull_request_target:
-    types:
-      - closed
+  push:
+    branches:
+      - master
 
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
