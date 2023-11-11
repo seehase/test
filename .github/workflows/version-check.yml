@@ -32,14 +32,4 @@ jobs:
                     echo "Head $HEAD_VERSION not updated before merging into master"
                     exit 1
                   fi
-            - name: Create Tag
-              uses: actions/github-script@v6
-              with:
-                script: |
-                  const {DIST_VERSION} = process.env          
-                  github.rest.git.createRef({
-                      owner: context.repo.owner,
-                      repo: context.repo.repo,
-                      ref: `refs/tags/${DIST_VERSION}`,
-                      sha: context.sha
-                  })      
+      
