@@ -17,7 +17,7 @@ jobs:
 
             - name: Version diff
               run: |
-                  # read version from file: ZonPHP/inc/version_info.php of head branch
+                  # read versions from file: ZonPHP/inc/version_info.php of head branch
                   HEAD_VERSION=$( grep '$version = ' ZonPHP/inc/version_info.php | cut -d '"' -f 2  )
                   echo "HEAD_VERSION --> $HEAD_VERSION"
                   git checkout master
