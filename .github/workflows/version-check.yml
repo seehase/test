@@ -26,7 +26,19 @@ jobs:
                   echo "MASTER_VERSION --> $MASTER_VERSION"
                   if [ "$HEAD_VERSION" \> "$MASTER_VERSION" ]; then
                     echo "Great job, master version $MASTER_VERSION will become $HEAD_VERSION soon"                    
+                    echo "DIST_VERSION=${HEAD_VERSION}" >> $GITHUB_ENV
                   else
                     echo "Head $HEAD_VERSION not updated before merging into master"
                     exit 1
                   fi
+            - name: Create Tag
+              uses: actions/github-script@v6
+              with:
+                script: |
+                  const {DIST_VERSION} = process.env          
+                  github.rest.git.createRef({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      ref: `refs/tags/${DIST_VERSION}`,
+                      sha: context.sha
+                  })      
